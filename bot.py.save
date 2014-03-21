@@ -1,0 +1,51 @@
+import time import socket #imports module allowing connection to IRC import threading #imports module allowing timing functions import sys
+
+password = sys.argv[2] botnick = sys.argv[1] leader = sys.argv[3]
+#channel = "twitchplayspokemon"
+channel = "Kevin117007"
+
+#server = 'irc.twitch.tv'
+#irc = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+#irc.connect((server,6667))
+#irc.send("Pass %s\n" % (password))
+#irc.send("NICK %s\n" % (botnick))
+#irc.send("JOIN #%s\n" % (channel))
+
+command_socket = socket.socket()
+command_socket.connect(('localhost',1234))
+
+print command_socket.getsockname()[1]
+print "setting up the thing"
+command_socket.send("sending data")
+while True:
+	ircmsg = command_socket.recv(command_socket.getsockname()[1])
+	print ircmsg
+print "We didn't get here"
+
+
+while True:
+	pass
+
+def sendMessage(message):
+	irc.send("PRIVMSG #%s :%s\n" % (channel, message))
+
+while True:
+	ircmsg = irc.recv(1024)
+	if not ircmsg:
+		print ("it's not an ircmsg")
+		try:
+				irc.close()
+				irc.connect(server, 6667)
+		except Exception as e:
+				print e
+	if ircmsg.find('PING ') != -1:
+			print "We got a ping!"
+			ircsock.send('PING :PONG\n')
+
+	if ircmsg.find(' PRIVMSG ') != -1:
+			nick = ircmsg.split('!')[0][1:]
+			msg = ircmsg.split(' PRIVMSG ')[-1].split(' :')[1].lower()
+			if(nick.lower() == leader.lower()):
+				print("We got a message from our leader! Sending...")
+				sendMessage(msg)
+	print ircmsg
